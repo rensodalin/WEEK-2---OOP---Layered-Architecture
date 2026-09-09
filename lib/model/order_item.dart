@@ -12,7 +12,5 @@ class OrderItem {
       throw Exception('Quantity must be greater than 0');
     }
   }
-
-  // Computed property: subtotal for this item line
   double get subtotal => menuItem.price * quantity;
 }

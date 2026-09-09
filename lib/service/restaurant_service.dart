@@ -11,10 +11,7 @@ class RestaurantService {
   final List<MenuItem> menu = [];
   final List<Order> orders = [];
 
-  // =============================================================
   // Setup & Registration
-  // =============================================================
-
   void registerCustomer({
     required String id,
     required String name,
@@ -43,9 +40,7 @@ class RestaurantService {
     menu.add(item);
   }
 
-  // =============================================================
-  // Business Operation 1 (BO1): Open Table & Create Order
-  // =============================================================
+  //  Open Table & Create Order
 
   void openOrder({
     required String orderId,
@@ -73,16 +68,16 @@ class RestaurantService {
     }
 
     if (guestCount <= 0) {
+      // guest count againt table capacity
       throw Exception('Guest count must be greater than 0');
     }
 
     if (guestCount > table.capacity) {
+      // table capcity
       throw Exception(
         'Guest count ($guestCount) exceeds table capacity (${table.capacity})',
       );
     }
-
-    // Mark table as occupied
     table.occupy();
 
     // Create and record new order
@@ -93,10 +88,7 @@ class RestaurantService {
     );
     orders.add(order);
   }
-
-  // =============================================================
-  // Business Operation 2 (BO2): Add Item to Order
-  // =============================================================
+  // Add Item to Order
 
   void addItemToOrder({
     required String orderId,
@@ -125,9 +117,7 @@ class RestaurantService {
     order.addItem(orderItem);
   }
 
-  // =============================================================
-  // Business Operation 3 (BO3): Apply Promotional Discount
-  // =============================================================
+  //  Apply Promotional Discount
 
   void applyDiscount({
     required String orderId,
@@ -145,9 +135,7 @@ class RestaurantService {
     order.applyDiscount(discount);
   }
 
-  // =============================================================
-  // Business Operation 4 (BO4): Checkout & Settle Bill
-  // =============================================================
+  // Checkout & Settle Bill
 
   double checkoutOrder({required String orderId}) {
     final order = _findOrderOrNull(orderId);
@@ -172,9 +160,7 @@ class RestaurantService {
     return order.totalAmount;
   }
 
-  // =============================================================
-  // Business Operation 5 (BO5): Cancel Order
-  // =============================================================
+  // Cancel Order
 
   void cancelOrder({required String orderId}) {
     final order = _findOrderOrNull(orderId);

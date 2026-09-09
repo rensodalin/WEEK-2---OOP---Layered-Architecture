@@ -19,8 +19,6 @@ class Order {
   bool get isPaid => _isPaid;
   bool get isCancelled => _isCancelled;
   bool get isOpen => !_isPaid && !_isCancelled;
-
-  // Computed property: raw total sum of items
   double get rawTotal {
     double total = 0.0;
     for (final item in items) {
@@ -29,13 +27,11 @@ class Order {
     return total;
   }
 
-  // Computed property: discount deduction amount
   double get discountAmount {
     if (discount == null) return 0.0;
     return rawTotal * (discount!.percentage / 100.0);
   }
 
-  // Computed property: final total after discount
   double get totalAmount => rawTotal - discountAmount;
 
   void addItem(OrderItem item) {

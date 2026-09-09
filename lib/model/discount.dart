@@ -1,7 +1,6 @@
-/// Immutable Value Object representing a percentage discount coupon
 class Discount {
-  final String code;
-  final double percentage; // e.g. 20.0 for 20%
+  final String code; // this is immutable value object
+  final double percentage;
 
   Discount({
     required this.code,

@@ -16,14 +16,12 @@ class MenuItem {
     required this.category,
   });
 
-  // Named constructor for beverages
   MenuItem.beverage({
     required this.id,
     required this.name,
     required this.price,
   }) : category = MenuCategory.beverage;
 
-  // Named constructor for food dishes
   MenuItem.food({
     required this.id,
     required this.name,
