@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:my_app/Project/model/discount.dart';
+import '../../../model/discount.dart';
 
 class DiscountChip extends StatelessWidget {
   final Discount discount;

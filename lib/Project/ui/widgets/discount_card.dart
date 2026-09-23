@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:my_app/Project/ui/widgets/chib/discount_chip.dart';
+import 'chib/discount_chip.dart';
 import '../../model/discount.dart';
 
 class DiscountCard extends StatelessWidget {
