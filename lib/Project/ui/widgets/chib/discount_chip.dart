@@ -9,7 +9,7 @@ class DiscountChip extends StatelessWidget {
   Widget build(BuildContext context) {
     return Chip(
       label: Text('${discount.percentage} % OFF'),
-      backgroundColor: Colors.grey[200],
+      backgroundColor: Color(0xFFEFEBE9),
     );
   }
 }

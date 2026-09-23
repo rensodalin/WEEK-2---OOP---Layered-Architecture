@@ -39,7 +39,7 @@ class DiscountCard extends StatelessWidget {
                 ],
               ),
             ),
-            DiscountChip(discount: discount)
+            DiscountChip(discount: discount),
           ],
         ),
       ),
