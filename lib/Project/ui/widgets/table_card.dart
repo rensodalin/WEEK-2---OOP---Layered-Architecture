@@ -5,59 +5,63 @@ import '../../model/restaurant_table.dart';
 class TableCard extends StatelessWidget {
   final RestaurantTable table;
   final Order? activeOrder;
+  final VoidCallback? onTap;
 
   const TableCard({
     super.key,
     required this.table,
     this.activeOrder,
+    this.onTap,
   });
 
   @override
   Widget build(BuildContext context) {
-    final isOccupied = table.isOccupied;
-
     return Card(
+      color: Colors.white,
       margin: const EdgeInsets.symmetric(vertical: 6),
-      child: Padding(
-        padding: const EdgeInsets.all(12),
-        child: Column(
-          children: [
-            ListTile(
-              leading: Icon(
+      elevation: 1,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      child: InkWell(
+        borderRadius: BorderRadius.circular(12),
+        onTap: onTap,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+          child: Row(
+            children: [
+              Icon(
                 Icons.table_restaurant,
-                size: 36,
-                color: isOccupied ? Colors.red : Colors.green,
+                size: 32,
+                color: table.isOccupied ? Colors.red : Colors.green,
               ),
-
-              title: Text(
-                'Table ${table.tableNumber} - ${isOccupied ? "Occupied" : "Available"}',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  color: isOccupied ? Colors.red : Colors.green,
+              const SizedBox(width: 16),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Table ${table.tableNumber}',
+                      style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      'Capacity: ${table.capacity} guests',
+                      style: TextStyle(
+                        fontSize: 13,
+                        color: Colors.grey[600],
+                      ),
+                    ),
+                  ],
                 ),
               ),
-
-              subtitle: Text(
-                isOccupied
-                    ? 'Capacity: ${table.capacity} guests • Seated: ${activeOrder?.guestCount ?? 0} guests'
-                    : 'Capacity: ${table.capacity} guests',
+              Icon(
+                Icons.chevron_right,
+                color: Colors.grey[400],
               ),
-            ),
-
-          Divider(),
-
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  isOccupied
-                      ? 'Active Tab: \$${(activeOrder?.rawTotal ?? 0).toStringAsFixed(2)}'
-                      : 'Table is ready',
-                ),
-
-              ],
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

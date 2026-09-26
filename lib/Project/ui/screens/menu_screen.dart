@@ -11,7 +11,7 @@ class MenuScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.all(15),
+      padding: const EdgeInsets.all(15),
       child: ListView.builder(
         itemCount: menu.length,
         itemBuilder: (context, index) => MenuItemCard(item: menu[index]),

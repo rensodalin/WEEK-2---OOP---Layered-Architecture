@@ -2,7 +2,7 @@ import 'menu_item.dart';
 
 class OrderItem {
   final MenuItem menuItem;
-  final int quantity;
+  int quantity;
 
   OrderItem({
     required this.menuItem,
@@ -10,6 +10,16 @@ class OrderItem {
   }) {
     if (quantity <= 0) {
       throw Exception('Quantity must be greater than 0');
+    }
+  }
+
+  void increment() {
+    quantity++;
+  }
+
+  void decrement() {
+    if (quantity > 1) {
+      quantity--;
     }
   }
 

@@ -400,6 +400,10 @@ class RestaurantService {
       throw Exception('Cannot cancel a completed/paid order');
     }
 
+    if (order.items.isNotEmpty) {
+      throw Exception('Cannot cancel an order that contains items');
+    }
+
     final table = _findTableOrNull(order.tableNumber);
     if (table != null) {
       table.release();

@@ -7,6 +7,8 @@ import 'ui/screens/restaurant_home_screen.dart';
 
 void main() {
   final service = RestaurantService();
+
+  // 1. Register Staff Members
   service.registerStaff(
     id: 'MGR01',
     name: 'Mike Manager',
@@ -22,10 +24,14 @@ void main() {
     name: 'Sarah Cashier',
     role: StaffRole.cashier,
   );
+
+  // 2. Manager adds Dining Tables
   service.addTable(managerId: 'MGR01', tableNumber: 1, capacity: 4);
   service.addTable(managerId: 'MGR01', tableNumber: 2, capacity: 2);
   service.addTable(managerId: 'MGR01', tableNumber: 3, capacity: 6);
   service.addTable(managerId: 'MGR01', tableNumber: 4, capacity: 4);
+
+  // 3. Manager adds Menu Items
   service.addMenuItem(
     managerId: 'MGR01',
     item: MenuItem.beverage(id: 'M01', name: 'Iced Caramel Latte', price: 4.50),
@@ -47,11 +53,17 @@ void main() {
     item: MenuItem.food(id: 'M05', name: 'Avocado Toast', price: 6.50),
   );
 
+  // 4. Manager registers Promotional Discounts
   service.addDiscount(
     managerId: 'MGR01',
     discount: Discount(code: 'SAVE20', percentage: 20.0, minOrderAmount: 25.0),
   );
+  service.addDiscount(
+    managerId: 'MGR01',
+    discount: Discount(code: 'WELCOME10', percentage: 10.0),
+  );
 
+  // 5. Seed an active order (Waiter John seats Table 1)
   service.openOrder(
     orderId: 'ORD-001',
     tableNumber: 1,
@@ -61,7 +73,7 @@ void main() {
   service.addItemToOrder(
     waiterId: 'W01',
     orderId: 'ORD-001',
-    menuItemId: 'M02',
+    menuItemId: 'M01',
     quantity: 2,
   );
   service.addItemToOrder(
@@ -70,6 +82,8 @@ void main() {
     menuItemId: 'M04',
     quantity: 2,
   );
+
+  // 6. Seed a settled/paid order (Table 2 was seated, ordered, and checked out by Cashier Sarah)
   service.openOrder(
     orderId: 'ORD-002',
     tableNumber: 2,
@@ -88,6 +102,7 @@ void main() {
     menuItemId: 'M05',
     quantity: 3,
   );
+  // Cashier applies discount and checks out
   service.checkoutOrder(
     orderId: 'ORD-002',
     cashierId: 'K01',
