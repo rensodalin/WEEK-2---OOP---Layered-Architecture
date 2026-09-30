@@ -6,15 +6,28 @@ import '../widgets/discount_card.dart';
 class DiscountsScreen extends StatelessWidget {
   final List<Discount> discounts;
 
-  const DiscountsScreen({super.key, required this.discounts});
+  const DiscountsScreen({
+    super.key,
+    required this.discounts,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.all(15),
-      child: ListView.builder(
-        itemCount: discounts.length,
-        itemBuilder: (context, index) => DiscountCard(discount: discounts[index]),
+    return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {},
+        child: const Icon(Icons.add),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(15),
+        child: ListView.builder(
+          itemCount: discounts.length,
+          itemBuilder: (context, index) {
+            return DiscountCard(
+              discount: discounts[index],
+            );
+          },
+        ),
       ),
     );
   }

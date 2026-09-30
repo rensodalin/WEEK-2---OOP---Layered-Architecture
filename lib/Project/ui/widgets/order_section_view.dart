@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
+
 import '../../model/order.dart';
-import '../widgets/order_item_tile.dart';
+import 'order_item_tile.dart';
 
 class OrderSectionView extends StatelessWidget {
   final Order order;
-  final VoidCallback onAddItem;
+  final VoidCallback? onAddItem;
   final VoidCallback onCancelOrder;
   final VoidCallback onCheckoutOrder;
 
   const OrderSectionView({
     super.key,
     required this.order,
-    required this.onAddItem,
+    this.onAddItem,
     required this.onCancelOrder,
     required this.onCheckoutOrder,
   });
@@ -20,22 +21,22 @@ class OrderSectionView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        // Add Items
         Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             ElevatedButton(
-              onPressed: onAddItem,
+              onPressed: onAddItem ?? () {},
               style: ElevatedButton.styleFrom(
-                backgroundColor: Color(0xFF533E38),
+                backgroundColor: Colors.brown,
               ),
-              child: Text(
+              child:  Text(
                 'Add Items',
                 style: TextStyle(color: Colors.white),
               ),
             ),
           ],
         ),
+         SizedBox(height: 8),
         Expanded(
           child: ListView.builder(
             itemCount: order.items.length,
@@ -55,34 +56,33 @@ class OrderSectionView extends StatelessWidget {
             ),
             Text(
               '\$${order.rawTotal.toStringAsFixed(2)}',
-              style: TextStyle(
+              style:  TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
               ),
             ),
           ],
         ),
-
-        SizedBox(height: 10),
+       SizedBox(height: 10),
         Row(
           children: [
             Expanded(
               child: OutlinedButton(
                 onPressed: onCancelOrder,
-                style: OutlinedButton.styleFrom(
+                child: Text(
+                  'Cancel Order',
+                  style: TextStyle(color: Colors.red),
                 ),
-                child: Text('Cancel Order' , style: TextStyle(color: Colors.red),),
               ),
             ),
-            SizedBox(width: 10),
+             SizedBox(width: 10),
             Expanded(
               child: ElevatedButton(
                 onPressed: onCheckoutOrder,
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Color(0xFF533E38),
-
                 ),
-                child: Text(
+                child:  Text(
                   'Check Out',
                   style: TextStyle(color: Colors.white),
                 ),

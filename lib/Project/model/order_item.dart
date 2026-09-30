@@ -13,16 +13,5 @@ class OrderItem {
     }
   }
 
-  void increment() {
-    quantity++;
-  }
-
-  void decrement() {
-    if (quantity > 1) {
-      quantity--;
-    }
-  }
-
-  // Computed property: subtotal for this item line
   double get subtotal => menuItem.price * quantity;
 }

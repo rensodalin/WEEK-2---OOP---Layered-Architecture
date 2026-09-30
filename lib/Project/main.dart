@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:my_app/Project/ui/screens/add_menu_item_to_order_form.dart';
 import 'model/discount.dart';
 import 'model/menu_item.dart';
 import 'model/staff.dart';
 import 'service/restaurant_service.dart';
+import 'ui/screens/table_detail_screen.dart';
 import 'ui/screens/restaurant_home_screen.dart';
 
 void main() {
@@ -51,6 +53,11 @@ void main() {
     managerId: 'MGR01',
     discount: Discount(code: 'SAVE20', percentage: 20.0, minOrderAmount: 25.0),
   );
+  service.addDiscount(
+    managerId: 'MGR01',
+    discount:
+        Discount(code: 'WELCOME10', percentage: 10.0, minOrderAmount: 0.0),
+  );
 
   service.openOrder(
     orderId: 'ORD-001',
@@ -93,17 +100,61 @@ void main() {
     cashierId: 'K01',
     discountCode: 'SAVE20',
   );
+  service.openOrder(
+    orderId: 'ORD-003',
+    tableNumber: 3,
+    guestCount: 2,
+    waiterId: 'W01',
+  );
+
+  service.cancelOrder(
+    waiterId: 'W01',
+    orderId: 'ORD-003',
+  );
 
   runApp(RestaurantApp(service: service));
 }
+// class RestaurantApp extends StatelessWidget {
+//   final RestaurantService service;
 
+//   const RestaurantApp({
+//     super.key,
+//     required this.service,
+//   });
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return MaterialApp(
+//       title: 'Restaurant System',
+//       debugShowCheckedModeBanner: false,
+//       theme: ThemeData(
+//         useMaterial3: true,
+//         colorSchemeSeed: Colors.brown,
+//       ),
+//       home: RestaurantHomeScreen(
+//         service: service,
+//       ),
+//     );
+//   }
+// }
 class RestaurantApp extends StatelessWidget {
   final RestaurantService service;
 
-  const RestaurantApp({super.key, required this.service});
+  const RestaurantApp({
+    super.key,
+    required this.service,
+  });
 
   @override
   Widget build(BuildContext context) {
+    final table = service.tables.firstWhere(
+      (table) => table.tableNumber == 1,
+    );
+
+    final order = service.orders.firstWhere(
+      (order) => order.id == 'ORD-001',
+    );
+
     return MaterialApp(
       title: 'Restaurant System',
       debugShowCheckedModeBanner: false,
@@ -111,7 +162,29 @@ class RestaurantApp extends StatelessWidget {
         useMaterial3: true,
         colorSchemeSeed: Colors.brown,
       ),
-      home: RestaurantHomeScreen(service: service),
+      home: TableDetailScreen(
+        table: table,
+        order: order,
+      ),
     );
   }
 }
+
+// class RestaurantHomeScreen extends StatelessWidget {
+//   final RestaurantService service;
+
+//   const RestaurantHomeScreen({
+//     super.key,
+//     required this.service,
+//   });
+
+//   @override
+//   Widget build(BuildContext context) {
+//     final order = service.orders.first;
+
+//     return AddMenuItemToOrderForm(
+//       order: order,
+//       menu: service.menu,
+//     );
+//   }
+// }

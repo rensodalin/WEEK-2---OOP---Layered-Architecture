@@ -83,24 +83,6 @@ class Order {
     items.remove(item.first);
   }
 
-  void increaseItemQuantity(OrderItem item) {
-    if (!isOpen) {
-      throw Exception('Cannot modify items in a closed or cancelled order');
-    }
-    item.increment();
-  }
-
-  void decreaseItemQuantity(OrderItem item) {
-    if (!isOpen) {
-      throw Exception('Cannot modify items in a closed or cancelled order');
-    }
-    if (item.quantity > 1) {
-      item.decrement();
-    } else {
-      items.remove(item);
-    }
-  }
-
   void applyDiscount(Discount discount) {
     if (!isOpen) {
       throw Exception('Cannot apply discount to a closed or cancelled order');
