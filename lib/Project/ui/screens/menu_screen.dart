@@ -16,9 +16,9 @@ class MenuScreen extends StatefulWidget {
 }
 
 class _MenuScreenState extends State<MenuScreen> {
-  bool _showBeverageOnly = false;
+  bool showBeverageOnly = false;
 
-  List<MenuItem> get displayBeverage => _showBeverageOnly
+  List<MenuItem> get displayBeverage => showBeverageOnly
       ? widget.menu.where((i) => i.category == MenuCategory.beverage).toList()
       : widget.menu;
 
@@ -27,23 +27,23 @@ class _MenuScreenState extends State<MenuScreen> {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         onPressed: () {},
-        child: const Icon(Icons.add),
+        child: Icon(Icons.add),
       ),
       body: Padding(
-        padding: const EdgeInsets.all(15),
+        padding: EdgeInsets.all(15),
         child: Column(
           children: [
             Row(
               children: [
                 Checkbox(
-                  value: _showBeverageOnly,
+                  value: showBeverageOnly,
                   onChanged: (bool? value) {
                     setState(() {
-                      _showBeverageOnly = value!;
+                      showBeverageOnly = value!;
                     });
                   },
                 ),
-                const Text(
+                Text(
                   'Show beverages only',
                   style: TextStyle(
                     fontSize: 16,
@@ -51,7 +51,7 @@ class _MenuScreenState extends State<MenuScreen> {
                 ),
               ],
             ),
-            const SizedBox(height: 10),
+            SizedBox(height: 10),
             Expanded(
               child: ListView.builder(
                 itemCount: displayBeverage.length,
