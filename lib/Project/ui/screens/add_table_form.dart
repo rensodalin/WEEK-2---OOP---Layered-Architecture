@@ -6,7 +6,7 @@ class AddTableForm extends StatefulWidget {
 
   const AddTableForm({
     super.key,
-    this.tables = const [],
+    required this.tables,
   });
 
   @override
@@ -14,38 +14,38 @@ class AddTableForm extends StatefulWidget {
 }
 
 class _AddTableFormState extends State<AddTableForm> {
-  final _formkey = GlobalKey<FormState>();
-  final _tableNumberController = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
+  final _tableController = TextEditingController();
 
-  int _capacity = 4;
+  int capacity = 4;
 
-  void onAddTable() {
-    if (_formkey.currentState!.validate()) {
-      int tableNumber = int.parse(_tableNumberController.text);
+  void addTable() {
+    if (_formKey.currentState!.validate()) {
+      final table = int.tryParse(_tableController.text)!;
 
-      RestaurantTable table = RestaurantTable(
-        tableNumber: tableNumber,
-        capacity: _capacity,
+      final newTable = RestaurantTable(
+        tableNumber: table,
+        capacity: capacity,
       );
 
-      Navigator.pop<RestaurantTable>(context, table);
+      Navigator.pop(context, newTable);
     }
   }
 
-  String? validateTableNumber(String? value) {
-    if (value == null || value.isEmpty) {
+  String? validateTable(String? value) {
+    final number = int.tryParse(value ?? '');
+
+    if (number == null) {
       return 'Enter table number';
     }
 
-    int? num = int.tryParse(value);
-
-    if (num == null || num <= 0) {
-      return 'Enter a valid positive number';
+    if (number <= 0) {
+      return 'Enter a valid table number';
     }
 
     for (final table in widget.tables) {
-      if (table.tableNumber == num) {
-        return 'Table $num already exists';
+      if (table.tableNumber == number) {
+        return 'Table already exists';
       }
     }
 
@@ -54,7 +54,7 @@ class _AddTableFormState extends State<AddTableForm> {
 
   @override
   void dispose() {
-    _tableNumberController.dispose();
+    _tableController.dispose();
     super.dispose();
   }
 
@@ -62,79 +62,76 @@ class _AddTableFormState extends State<AddTableForm> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Add Table'),
+        title: Text('Add Table'),
       ),
-
       body: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          children: [
-            Form(
-              key: _formkey,
-              child: Column(
-                children: [
-                  TextFormField(
-                    controller: _tableNumberController,
-                    keyboardType: TextInputType.number,
-                    validator: validateTableNumber,
-                    decoration: const InputDecoration(
-                      labelText: 'Table Number',
-                      border: OutlineInputBorder(),
-                    ),
+        padding: EdgeInsets.all(15),
+        child: Form(
+          key: _formKey,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                'Add New Dining Table',
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              SizedBox(height: 15),
+              TextFormField(
+                controller: _tableController,
+                validator: validateTable,
+                decoration: InputDecoration(
+                  labelText: 'Table Number',
+                  border: OutlineInputBorder(),
+                ),
+              ),
+              SizedBox(height: 12),
+              DropdownButtonFormField<int>(
+                initialValue: capacity,
+                decoration: InputDecoration(
+                  labelText: 'Capacity',
+                  border: OutlineInputBorder(),
+                ),
+                items: [
+                  DropdownMenuItem(
+                    value: 2,
+                    child: Text('2 guests'),
                   ),
-
-                  const SizedBox(height: 16),
-
-                  DropdownButtonFormField<int>(
-                    initialValue: _capacity,
-                    decoration: const InputDecoration(
-                      labelText: 'Capacity (Guests)',
-                      border: OutlineInputBorder(),
-                    ),
-
-                    items: const [
-                      DropdownMenuItem(
-                        value: 2,
-                        child: Text('2 guests'),
-                      ),
-                      DropdownMenuItem(
-                        value: 4,
-                        child: Text('4 guests'),
-                      ),
-                      DropdownMenuItem(
-                        value: 6,
-                        child: Text('6 guests'),
-                      ),
-                      DropdownMenuItem(
-                        value: 8,
-                        child: Text('8 guests'),
-                      ),
-                      DropdownMenuItem(
-                        value: 10,
-                        child: Text('10 guests'),
-                      ),
-                    ],
-
-                    onChanged: (value) {
-                      setState(() {
-                        _capacity = value!;
-                      });
-                    },
+                  DropdownMenuItem(
+                    value: 4,
+                    child: Text('4 guests'),
                   ),
-
-                  const SizedBox(height: 24),
-
-                  SizedBox(
-                    width: double.infinity,
-                    child: ElevatedButton(
-                      onPressed: onAddTable,
-                      child: const Text('Add Table'),
-                    ),
+                  DropdownMenuItem(
+                    value: 6,
+                    child: Text('6 guests'),
+                  ),
+                  DropdownMenuItem(
+                    value: 8,
+                    child: Text('8 guests'),
+                  ),
+                  DropdownMenuItem(
+                    value: 10,
+                    child: Text('10 guests'),
                   ),
                 ],
+                onChanged: (value) {
+                  setState(() {
+                    capacity = value!;
+                  });
+                },
               ),
-            ),
-          ],
+              SizedBox(height: 20),
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: addTable,
+                  child: Text('Add Table'),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

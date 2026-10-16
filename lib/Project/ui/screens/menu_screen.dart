@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../model/menu_item.dart';
 import '../widgets/menu_item_card.dart';
+import 'add_menu_item_form.dart';
 
 class MenuScreen extends StatefulWidget {
   final List<MenuItem> menu;
@@ -22,11 +23,25 @@ class _MenuScreenState extends State<MenuScreen> {
       ? widget.menu.where((i) => i.category == MenuCategory.beverage).toList()
       : widget.menu;
 
+  void addMenuItem() async {
+    final newItem = await Navigator.push<MenuItem>(
+      context,
+      MaterialPageRoute(
+        builder: (context) => AddMenuItemForm(),
+      ),
+    );
+    if (newItem != null) {
+      setState(() {
+        widget.menu.add(newItem);
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: addMenuItem,
         child: Icon(Icons.add),
       ),
       body: Padding(

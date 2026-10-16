@@ -1,17 +1,22 @@
 import 'package:flutter/material.dart';
 
+import '../../model/menu_item.dart';
 import '../../model/order.dart';
 import '../../model/restaurant_table.dart';
 import '../widgets/table_card.dart';
+import 'add_table_form.dart';
+import 'table_detail_screen.dart';
 
 class TablesScreen extends StatefulWidget {
   final List<RestaurantTable> tables;
   final List<Order> orders;
+  final List<MenuItem> menu;
 
   const TablesScreen({
     super.key,
     required this.tables,
     this.orders = const [],
+    this.menu = const [],
   });
 
   @override
@@ -25,11 +30,44 @@ class _TablesScreenState extends State<TablesScreen> {
       ? widget.tables.where((t) => !t.isOccupied).toList()
       : widget.tables;
 
+  void ontap(RestaurantTable table, Order? activeOrder) async {
+    await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => TableDetailScreen(
+          table: table,
+          order: activeOrder,
+          menu: widget.menu,
+          orders: widget.orders,
+        ),
+      ),
+    );
+
+    setState(() {});
+  }
+
+  void addTable() async {
+    final newTable = await Navigator.push<RestaurantTable>(
+      context,
+      MaterialPageRoute(
+        builder: (context) => AddTableForm(
+          tables: widget.tables,
+        ),
+      ),
+    );
+
+    if (newTable != null) {
+      setState(() {
+        widget.tables.add(newTable);
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: addTable,
         child: Icon(Icons.add),
       ),
       body: Padding(
@@ -70,6 +108,10 @@ class _TablesScreenState extends State<TablesScreen> {
                   return TableCard(
                     table: tableItem,
                     activeOrder: activeOrder,
+                    onTap: () => ontap(
+                      tableItem,
+                      activeOrder,
+                    ),
                   );
                 },
               ),

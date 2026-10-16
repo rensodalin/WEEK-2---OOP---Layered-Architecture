@@ -5,8 +5,6 @@ import 'model/staff.dart';
 import 'service/restaurant_service.dart';
 import 'ui/screens/restaurant_home_screen.dart';
 
-
-
 void main() {
   final service = RestaurantService();
   service.registerStaff(
@@ -59,59 +57,6 @@ void main() {
         Discount(code: 'WELCOME10', percentage: 10.0, minOrderAmount: 0.0),
   );
 
-  service.openOrder(
-    orderId: 'ORD-001',
-    tableNumber: 1,
-    guestCount: 3,
-    waiterId: 'W01',
-  );
-  service.addItemToOrder(
-    waiterId: 'W01',
-    orderId: 'ORD-001',
-    menuItemId: 'M02',
-    quantity: 2,
-  );
-  service.addItemToOrder(
-    waiterId: 'W01',
-    orderId: 'ORD-001',
-    menuItemId: 'M04',
-    quantity: 2,
-  );
-  service.openOrder(
-    orderId: 'ORD-002',
-    tableNumber: 2,
-    guestCount: 2,
-    waiterId: 'W01',
-  );
-  service.addItemToOrder(
-    waiterId: 'W01',
-    orderId: 'ORD-002',
-    menuItemId: 'M03',
-    quantity: 2,
-  );
-  service.addItemToOrder(
-    waiterId: 'W01',
-    orderId: 'ORD-002',
-    menuItemId: 'M05',
-    quantity: 3,
-  );
-  service.checkoutOrder(
-    orderId: 'ORD-002',
-    cashierId: 'K01',
-    discountCode: 'SAVE20',
-  );
-  service.openOrder(
-    orderId: 'ORD-003',
-    tableNumber: 3,
-    guestCount: 2,
-    waiterId: 'W01',
-  );
-
-  service.cancelOrder(
-    waiterId: 'W01',
-    orderId: 'ORD-003',
-  );
-
   runApp(RestaurantApp(service: service));
 }
 class RestaurantApp extends StatelessWidget {
@@ -138,6 +83,30 @@ class RestaurantApp extends StatelessWidget {
   }
 }
 
+// class RestaurantApp extends StatelessWidget {
+//   final RestaurantService service;
+
+//   const RestaurantApp({
+//     super.key,
+//     required this.service,
+//   });
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return MaterialApp(
+//       title: 'Restaurant System',
+//       debugShowCheckedModeBanner: false,
+//       theme: ThemeData(
+//         useMaterial3: true,
+//         colorSchemeSeed: Colors.brown,
+//       ),
+//       home: TableDetailScreen(
+//         table: service.tables.first,
+//         order: service.orders.first,
+//       ),
+//     );
+//   }
+// }
 // class RestaurantHomeScreen extends StatelessWidget {
 //   final RestaurantService service;
 
@@ -153,6 +122,31 @@ class RestaurantApp extends StatelessWidget {
 //     return AddMenuItemToOrderForm(
 //       order: order,
 //       menu: service.menu,
+//     );
+//   }
+// }
+
+// class RestaurantApp extends StatelessWidget {
+//   final RestaurantService service;
+
+//   const RestaurantApp({
+//     super.key,
+//     required this.service,
+//   });
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return MaterialApp(
+//       title: 'Restaurant System',
+//       debugShowCheckedModeBanner: false,
+//       theme: ThemeData(
+//         useMaterial3: true,
+//         colorSchemeSeed: Colors.brown,
+//       ),
+//       home: AddMenuItemToOrderForm(
+//         order: service.orders.first,
+//         menu: service.menu,
+//       ),
 //     );
 //   }
 // }

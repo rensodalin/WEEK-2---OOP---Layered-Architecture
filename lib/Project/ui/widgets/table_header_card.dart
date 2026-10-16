@@ -27,7 +27,7 @@ class TableHeaderCard extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              if (order != null)
+              if (isOccupied && order != null)
                 Container(
                   padding:  EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                   decoration: BoxDecoration(
@@ -40,7 +40,7 @@ class TableHeaderCard extends StatelessWidget {
                   ),
                 )
               else
-              SizedBox(width: 40),
+                const SizedBox(width: 40),
               Text(
                 'Table ${table.tableNumber}',
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),

@@ -28,6 +28,7 @@ class RestaurantHomeScreen extends StatelessWidget {
             TablesScreen(
               tables: service.tables,
               orders: service.orders,
+              menu: service.menu,
             ),
 
             MenuScreen(
