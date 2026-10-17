@@ -14,12 +14,14 @@ class TableHeaderCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isOccupied = table.isOccupied && order != null && order!.isOpen;
+    final activeOrder = order ?? table.currentOrder;
+    final isOccupied =
+        table.isOccupied && activeOrder != null && activeOrder.isOpen;
 
     return Container(
       padding: EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color:  Colors.brown[300],
+        color: Colors.brown[300],
         borderRadius: BorderRadius.circular(12),
       ),
       child: Column(
@@ -27,15 +29,15 @@ class TableHeaderCard extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              if (isOccupied && order != null)
+              if (isOccupied)
                 Container(
-                  padding:  EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                   decoration: BoxDecoration(
                     color: Colors.black87,
                     borderRadius: BorderRadius.circular(6),
                   ),
                   child: Text(
-                    order!.id,
+                    activeOrder.id,
                     style: TextStyle(color: Colors.white, fontSize: 12),
                   ),
                 )
@@ -46,7 +48,7 @@ class TableHeaderCard extends StatelessWidget {
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
               Container(
-                padding:   EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                 decoration: BoxDecoration(
                   color: isOccupied ? Colors.red[100] : Colors.green[100],
                   borderRadius: BorderRadius.circular(8),
@@ -61,12 +63,12 @@ class TableHeaderCard extends StatelessWidget {
               ),
             ],
           ),
-         SizedBox(height: 8),
+          SizedBox(height: 8),
           Text(
             isOccupied
-                ? 'Capacity: ${table.capacity} guests  Seat : ${order!.guestCount} guest'
+                ? 'Capacity: ${table.capacity} guests  Seat : ${activeOrder.guestCount} guest'
                 : 'Capacity: ${table.capacity} guests',
-            style:  TextStyle(color: Colors.white),
+            style: TextStyle(color: Colors.white),
           ),
         ],
       ),

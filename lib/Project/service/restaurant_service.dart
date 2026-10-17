@@ -224,8 +224,6 @@ class RestaurantService {
         'Guest count ($guestCount) exceeds table capacity (${table.capacity})',
       );
     }
-    table.occupy();
-
     // Create and record new order
     final order = Order(
       id: orderId,
@@ -233,6 +231,7 @@ class RestaurantService {
       waiterId: waiterId,
       guestCount: guestCount,
     );
+    table.occupy(order);
     orders.add(order);
   }
   // Add Item to Order

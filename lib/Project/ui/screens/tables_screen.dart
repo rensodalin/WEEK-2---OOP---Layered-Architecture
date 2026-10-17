@@ -30,18 +30,21 @@ class _TablesScreenState extends State<TablesScreen> {
       ? widget.tables.where((t) => !t.isOccupied).toList()
       : widget.tables;
 
-  void ontap(RestaurantTable table, Order? activeOrder) async {
+  void ontap(RestaurantTable table) async {
     await Navigator.push(
       context,
       MaterialPageRoute(
         builder: (context) => TableDetailScreen(
           table: table,
-          order: activeOrder,
           menu: widget.menu,
-          orders: widget.orders,
         ),
       ),
     );
+
+    if (table.currentOrder != null &&
+        !widget.orders.contains(table.currentOrder!)) {
+      widget.orders.add(table.currentOrder!);
+    }
 
     setState(() {});
   }
@@ -108,10 +111,7 @@ class _TablesScreenState extends State<TablesScreen> {
                   return TableCard(
                     table: tableItem,
                     activeOrder: activeOrder,
-                    onTap: () => ontap(
-                      tableItem,
-                      activeOrder,
-                    ),
+                    onTap: () => ontap(tableItem),
                   );
                 },
               ),

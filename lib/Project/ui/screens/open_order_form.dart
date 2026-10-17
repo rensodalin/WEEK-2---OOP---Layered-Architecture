@@ -26,14 +26,14 @@ class _OpenOrderFormState extends State<OpenOrderForm> {
       final waiterId = _waiterController.text.toUpperCase();
       final orderId = 'ORD-00${widget.table.tableNumber}';
 
-      widget.table.occupy();
-
       final newOrder = Order(
         id: orderId,
         tableNumber: widget.table.tableNumber,
         waiterId: waiterId,
         guestCount: guestCount,
       );
+
+      widget.table.occupy(newOrder);
 
       Navigator.pop(context, newOrder);
     }
